@@ -1,12 +1,10 @@
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
 
 import src.data.data as data
 import src.data.config as cfg
 import src.models.utils as model_utils
-import src.evaluate.utils as eval_utils
-import src.train.batch as batch_utils
+
 
 def make_sampler(sampler_type, opt, *args, **kwargs):
     print("Initializing Greedy Sampler")

@@ -1,15 +1,9 @@
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 
 import src.data.config as cfg
 import src.data.data as data
-import src.train.utils as train_utils
-import src.train.batch as batch
 
-import src.evaluate.evaluate as evaluate
 import src.evaluate.generate as gen
-import src.evaluate.sampler as sampling
 
 import utils.utils as utils
 

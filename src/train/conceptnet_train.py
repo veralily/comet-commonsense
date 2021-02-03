@@ -1,10 +1,7 @@
-import random
-import torch
-
 import src.data.config as cfg
 
-import src.train.atomic_train as base_train
-import src.train.batch as batch_utils
+import src as base_train
+import src as batch_utils
 import src.evaluate.conceptnet_evaluate as evaluate
 import src.evaluate.conceptnet_generate as gen
 

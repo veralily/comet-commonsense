@@ -1,8 +1,6 @@
-import time
 import numpy as np
 
-import src.train.batch as batch_utils
-import utils.utils as utils
+import src as batch_utils
 import src.evaluate.evaluate as base_evaluate
 
 

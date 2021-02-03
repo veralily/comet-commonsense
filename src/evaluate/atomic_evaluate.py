@@ -1,4 +1,4 @@
-import src.train.batch as batch
+import src as batch
 import src.evaluate.evaluate as base_evaluate
 import numpy as np
 

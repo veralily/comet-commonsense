@@ -3,15 +3,14 @@ import random
 
 import torch
 
-import src.train.atomic_train as train
+import src as train
 import src.models.models as models
 import src.data.data as data
 import utils.utils as utils
-import src.train.utils as train_utils
 import src.data.config as cfg
 
 from src.data.utils import TextEncoder
-from src.train.opt import OpenAIAdam
+from src import OpenAIAdam
 
 
 def main(num):

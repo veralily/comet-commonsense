@@ -24,7 +24,6 @@ categories += ["xNeed"]
 categories += ["xReact"]
 categories += ["xWant"]
 
-
 opt = DD()
 opt.dataset = "atomic"
 opt.exp = "generation"
@@ -59,7 +58,6 @@ random.shuffle(data_loader.data["dev"]["total"])
 
 data_loader.make_tensors(text_encoder, special, test=False)
 data_loader.reset_offsets()
-
 
 opt.data.maxe1 = data_loader.max_event
 opt.data.maxe2 = data_loader.max_effect

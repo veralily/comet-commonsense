@@ -4,7 +4,7 @@ from src.data.utils import TextEncoder
 import src.data.config as cfg
 import src.data.data as data
 import src.models.models as models
-import src.train.batch as batch_utils
+import src as batch_utils
 
 from src.evaluate.sampler import BeamSampler, GreedySampler, TopKSampler
 
@@ -126,7 +126,7 @@ def get_atomic_sequence(input_event, model, sampler, data_loader, text_encoder, 
 
         sequence_all['beams'] = sampling_result["beams"]
 
-        print_atomic_sequence(sequence_all)
+        # print_atomic_sequence(sequence_all)
 
         return {category: sequence_all}
 
@@ -150,7 +150,10 @@ def set_atomic_inputs(input_event, category, data_loader, text_encoder):
     XMB = torch.zeros(1, data_loader.max_event + 1).long().to(cfg.device)
     prefix, suffix = data.atomic_data.do_example(text_encoder, input_event, None, True, None)
 
-    XMB[:, :len(prefix)] = torch.LongTensor(prefix)
+    if len(prefix) > data_loader.max_event:
+        XMB[:, :data_loader.max_event] = torch.LongTensor(prefix[:data_loader.max_event])
+    else:
+        XMB[:, :len(prefix)] = torch.LongTensor(prefix)
     XMB[:, -1] = torch.LongTensor([text_encoder.encoder["<{}>".format(category)]])
 
     batch = {}
