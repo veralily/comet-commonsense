@@ -14,8 +14,8 @@ import pandas as pd
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--device", type=str, default="5")
-    parser.add_argument("--model_file", type=str, default="pretrained_models/atomic_pretrained_model.pickle")
+    parser.add_argument("--device", type=str, default="1")
+    parser.add_argument("--model_file", type=str, default="models/motiv_sent-generation/motiv_model.pickle")
     parser.add_argument("--sampling_algorithm", type=str, default="beam-4")
     # greedy; beam-# where # is the beam size; topk-# where # is k
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     opt, state_dict = interactive.load_model_file(args.model_file)
 
-    data_loader, text_encoder = interactive.load_data("atomic", opt)
+    data_loader, text_encoder = interactive.load_data("motiv_sent", opt)
 
     n_ctx = data_loader.max_event + data_loader.max_effect
     n_vocab = len(text_encoder.encoder) + n_ctx
@@ -70,19 +70,22 @@ if __name__ == "__main__":
 
     sampler = interactive.set_sampler(opt, sampling_algorithm, data_loader)
 
-    category = 'xIntent'
+    category = 'Intent'
 
-    filename = 'data/motiv_sent_none_test_refs.csv'
-    output_file = 'data/test_case_motiv_sent_none_on_comet.csv'
+    filename = 'data/motiv_sent_none/motiv_sent_none_tst.csv'
+    output_file = 'data/motiv_sent_none/test_case_motiv_sent_none_on_comet.csv'
     result = []
     data = pd.read_csv(filename)
     num_data = len(data.values)
     print_interval = max(1, num_data // 10)
     for i in range(num_data):
-        input_event = data.loc[i, 'sentence']
+        context = str(data.loc[i, 'context']).split('\t')[1:]
+        char = data.loc[i, 'char']
+        linenum = int(data.loc[i, 'linenum'])
+        input_event = '|'.join(context[0:linenum+1]) + f"</s>{char}<s>"
         # relation = data.loc[i, 'relation']
-        relation = "xIntent"
-        if relation == 'xIntent':
+        relation = "Intent"
+        if relation == 'Intent':
             outputs = interactive.get_atomic_sequence(
                 input_event, model, sampler, data_loader, text_encoder, category)
             predicted_sent = outputs[category]['beams']

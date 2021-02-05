@@ -1,6 +1,7 @@
 import os
 import src.data.atomic as atomic_data
 import src.data.conceptnet as conceptnet_data
+import src.data.motiv_sent as motiv_data
 import src.data.config as cfg
 
 import utils.utils as utils
@@ -72,6 +73,9 @@ def make_data_loader(opt, *args):
         return atomic_data.GenerationDataLoader(opt, *args)
     elif opt.dataset == "conceptnet":
         return conceptnet_data.GenerationDataLoader(opt, *args)
+    elif opt.dataset == "motiv_sent":
+        print(f"load motiv_sent data")
+        return motiv_data.GenerationDataLoader(opt, *args)
 
 
 def set_max_sizes(data_loader, force_split=None):

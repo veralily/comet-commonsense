@@ -103,6 +103,11 @@ def get_data_parameters(opt, experiment, dataset):
         else:
             # hard-coded
             data.maxr = 1
+    elif dataset == "motiv_sent":
+        data.categories = sorted(opt.categories)
+        data.maxe1 = 100
+        data.maxe2 = 67
+        data.maxr = 1
 
     return data
 

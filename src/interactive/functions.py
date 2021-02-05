@@ -18,11 +18,14 @@ def load_model_file(model_file):
 
     return opt, state_dict
 
+
 def load_data(dataset, opt):
     if dataset == "atomic":
         data_loader = load_atomic_data(opt)
     elif dataset == "conceptnet":
         data_loader = load_conceptnet_data(opt)
+    elif dataset == "motiv_sent":
+        data_loader = load_motiv_sent_data(opt)
 
     # Initialize TextEncoder
     encoder_path = "model/encoder_bpe_40000.json"
@@ -61,6 +64,21 @@ def load_conceptnet_data(opt):
     utils.make_name_string(opt.data))
     data_loader = data.make_data_loader(opt)
     loaded = data_loader.load_data(path)
+    return data_loader
+
+
+def load_motiv_sent_data(opt):
+    # Hacky workaround, you may have to change this
+    # if your models use different pad lengths for e1, e2, r
+    if opt.data.get("maxe1", None) is None:
+        opt.data.maxe1 = 100
+        opt.data.maxe2 = 67
+        opt.data.maxr = 1
+    path = "data/motiv_sent_none/processed/generation/{}.pickle".format(
+        utils.make_name_string(opt.data))
+    data_loader = data.make_data_loader(opt, opt.data.categories)
+    loaded = data_loader.load_data(path)
+
     return data_loader
 
 
